@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Vue</title>
+    <style>
+        .box {
+            width: 300px;
+            height: 300px;
+        }
+        .one{
+            background-color: red;
+        }
+        .two{
+            background-color: black;
+        }
+        .three{
+            background-color: blue;
+        }
+        .four{
+            background-color: green;
+        }
+        .five{
+            background-color: peru;
+        }
+        .six{
+            background-color: khaki;
+        }
+        [v-cload] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- CLOAK hides anything from rendering until application is ready -->
+    <div id = "app" v-cloak>
+        
+        {{ greeting }}
+        <!-- <input v-model="greeting"/> -->
+        <input @keyup.enter="greet(greeting)" v-model="greeting" />
+        <!-- event modifier that listen only for enter or or any key we can use ket code -->
+        <!-- https://vuejs.org/guide/essentials/event-handling.html -->
+
+        <hr/>
+
+        <!-- --------------------------------------------------------------------------- -->
+        <div v-show="isVisible2" class="box two"></div>
+        <div v-if="isVisible1" class="box one"></div>
+        <!-- vif dosent render the element(remove) at all when false
+            vshow just adds property display none when false -->
+        <!-- --------------------------------------------------------------------------- -->
+            
+
+        <!-- --------------------------------------------------------------------------- 
+        <div v-if="isVisible3" class="box three"></div>
+        <div v-else-if="isVisible4" class="box four"></div>
+        <div v-else class="box five"></div>
+        --------------------------------------------------------------------------- -->
+
+        <!-- -----------------------------------------------------------------------
+        <button @click="isVisible6 = !isVisible6">Toggle Box</button>
+        <p>{{isVisible6}}</p>
+        <div v-if="isVisible6" class="box six"></div>
+        ----------------------------------------------------------------------------- -->
+
+
+        <button @click="togglebox">Toggle Box</button>
+        <p>{{isVisible6}}</p>
+        <div v-if="isVisible6" class="box six"></div>
+
+    </div>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        let app = Vue.createApp({
+            data : function() {
+                return {
+                    greeting : 'Hello World from Vue 3!!!',
+                    isVisible1: false,
+                    isVisible2: false,
+                    isVisible3: false,
+                    isVisible4: false,
+                    isVisible6: false,
+                }
+            },
+            // methods are object of funcitons
+            methods: {
+                togglebox () {
+                    this.isVisible6 = !this.isVisible6
+                },
+                greet (greeting) {
+                    console.log(greeting);
+                }
+            }
+        })
+        app.mount('#app');
+    </script>
+</body>
+</html>

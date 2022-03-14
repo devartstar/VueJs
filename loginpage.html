@@ -22,31 +22,71 @@
             
         })
 
-        // component
+
+        // component Form
         app.component('login-form', {
+            // :label - looks for variables in custom input
+            // v-model itseld return :modelsValue property
+            // v-model also lsiten from the set value
+            // else will take as string
             template: `
                 <form @submit.prevent = "handleSubmit">
                     <h1>{{ title }}</h1>
-                    <input type="email" v-model="email"/>
-                    <input type="password" v-model="password"/>
+                    <custom-input v-model="email" :label="emailLabel" />
+                    <custom-input v-model="password" :label="passwordLabel" />
                     <button>Login</button>
                 </form>
             `,
+            components : ['custom-input'],
             data() {
                 return {
                     title : 'Login Form',
-                    email : '',
-                    password : '',
+                    email : 'devjitc1@gmail.com',
+                    password : 'devartstar@112358',
+                    emailLabel: 'Email',
+                    passwordLabel: 'Password',
                 }
             },
             methods: {
                 handleSubmit () {
                     console.log('submitted');
-                    console.log(this.email);
-                    console.log(this.password);
+                    console.log("Email :- " + this.email);
+                    console.log("Password :- " + this.password);
                 }
             },
         })
+
+
+        // component Input
+        app.component('custom-input', {
+            template: `
+                <label>
+                    {{ label }}
+                    <input type="text" v-model="inputValue">
+                </label>
+            `,
+            // getin data from the parent
+            props: ['label', 'modelValue'], 
+            // cannot change value of a parent component in chlid component
+            // that why we need computed and getter and setter
+            computed: {
+                inputValue : {
+                    // as soon as input value changes it can run getter and setter
+                    get() {
+                        return this.modelValue;
+                    },
+                    set(value) {
+                        this.$emit('update:modelValue', value);
+                    }
+                }
+            },
+            // data() {
+            //     return {
+            //         inputValue : ''
+            //     }
+            // }
+        })
+
 
         app.mount('#app');
     </script>

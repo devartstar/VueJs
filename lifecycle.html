@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component Life cycle</title>
+    <style>
+        .box {
+            width: 300px;
+            height: 300px;
+        }
+        .one {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        A component showing in and then going out denotes a complete life cyc;e
+        Hook is a function which will be triggered to run in the life cycle of a function 
+    -->
+
+    <div id = "app">
+        <button @click="toggleBox">Toggle Box</button>
+        <test-box v-if="isVisible" />
+    </div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        let app = Vue.createApp({
+            data: function() {
+                return {
+                    isVisible : false,
+                }
+            },
+            methods: {
+                toggleBox() {
+                    this.isVisible = !this.isVisible;
+                }
+            },
+            updated() {
+                console.log("updated"); // whenever any change in data
+            },
+        })
+
+        // a box component
+        app.component('test-box', {
+            template: `
+                <div class="box one"></div>
+            `,
+            // some lifecycle hooks
+            created(){
+                console.log("created"); // when created
+            },
+            mounted(){
+                console.log("mounted"); // when displayed
+            },
+            unmounted(){
+                console.log("unmounted");   // when stop displayed
+            }
+        })
+
+        app.mount('#app');
+    </script>
+</body>
+</html>
